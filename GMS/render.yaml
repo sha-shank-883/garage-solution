@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: garage-solution
+    env: php
+    plan: free
+    buildCommand: |
+      apt-get update
+      apt-get install -y php php-cli php-mbstring php-xml php-zip php-curl
+      curl -sS https://getcomposer.org/installer | php
+      mv composer.phar /usr/local/bin/composer
+      composer install
+      php artisan migrate --force
+    startCommand: |
+      php -S 0.0.0.0:8000 -t public
